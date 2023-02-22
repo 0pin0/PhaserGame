@@ -1,5 +1,3 @@
 {
-    "compilerOptions": {
-        "resolveJsonModule": true
-    }
+    "allowJs": true
 }
