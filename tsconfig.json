@@ -1,3 +1,7 @@
 {
-    "allowJs": true
+    "compilerOptions": {
+        "allowJs": true,
+        "resolveJsonModule": true,
+        "esModuleInterop": true
+    },
 }
