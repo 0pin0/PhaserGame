@@ -2,12 +2,25 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <span>
-      <script src="game.js"></script>
-    </span>
-    <span>
-      <script src="Game2.js"></script>
-    </span>
   </head>
-  <body></body>
+  <body>
+    <div>
+      <script src="game.js"></script>
+    </div>
+    <div>
+      <script src="Game2.js"></script>
+    </div>
+  </body>
 </html>
+
+<style>
+  div {
+    border: 2px #000 solid;
+    width: 300px;
+    float: left; /* 浮動，靠左對齊 */
+  }
+
+  div:nth-child(1) {
+    border-right: 0px; /* 把第一個div的右邊框設為0 */
+  }
+</style>
