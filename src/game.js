@@ -28,6 +28,7 @@ var Demo = /** @class */ (function (_super) {
         this.load.glsl('stars', 'assets/starfields.glsl.js');
     };
     Demo.prototype.create = function () {
+        console.log('a');
         this.add.shader('RGB Shift Field', 0, 0, 800, 600).setOrigin(0);
         this.add.shader('Plasma', 0, 412, 800, 172).setOrigin(0);
         this.add.image(400, 300, 'libs');
