@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  ver 2023/2/28 21:47
+  ver 2023/2/28 21:55
   <meta charset="utf-8" />
 </head>
 
@@ -17,18 +17,20 @@
   <div id="Frame1">
     <script src="game.js"></script>
   </div>
+
+  <script>
+    import myGlobalVariable from './global.js';
+
+    function onClickBtn1() {
+      myGlobalVariable.key1 = '1';
+    }
+    function onClickBtn2() {
+      myGlobalVariable.key1 = '2';
+    }
+  </script>
+
+
 </body>
-
-<script>
-  import myGlobalVariable from './global.js';
-
-  function onClickBtn1() {
-    myGlobalVariable.key1 = '1';
-  }
-  function onClickBtn2() {
-    myGlobalVariable.key1 = '2';
-  }
-</script>
 
 </html>
 
