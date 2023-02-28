@@ -1,7 +1,9 @@
 import "phaser";
 import myGlobalVariable from "../dist/global.js"
 
-const VersionText = '2023/3/1 00:09';
+const VersionText = '2023/3/1 00:57';
+
+const LSKey_GameId = 'LSKey_GameID';
 
 // interface MyGlobalVariable {
 //     key1: string;
@@ -25,39 +27,76 @@ export default class Demo extends Phaser.Scene {
         // }
         // const lastG = +this.data.get('gold');
 
-        let lastG = window.localStorage.getItem('gold');
-        if (lastG) {
-            lastG = `${+ lastG + 1}`;
+        let gameId = window.localStorage.getItem(LSKey_GameId);
+        if (gameId) {
+            gameId = `${+ gameId + 1}`;
+
         }
         else {
-            lastG = `1`;
+            gameId = `1`;
         }
-        window.localStorage.setItem('gold', lastG);
-        console.log(`lastG=${lastG}`);
+        window.localStorage.setItem('gold', gameId);
+        console.log(`lastG=${gameId}`);
 
-        this.isGame1 = Math.random() > 0.5;
-        console.log(`this.isGame1 =${this.isGame1}`);
+        // this.isGame1 = Math.random() > 0.5;
+        // console.log(`this.isGame1 =${this.isGame1}`);
     }
 
+    private readonly btnImageKey = 'btn';
     preload(): void {
         console.log(`preload`);
-        if (this.isGame1) {
-            this.preload_Game1();
-        } else {
-            this.preload_Game2();
+        const btn = this.load.image(this.btnImageKey, "assets/button.png");
+
+        let gameId = window.localStorage.getItem(LSKey_GameId);
+        switch (gameId) {
+            case '1':
+                this.preload_Game1();
+                break;
+            case '2':
+                this.preload_Game2();
+                break;
+            default:
+                console.error(`undefined, gameId=${gameId}`);
+                break;
         }
     }
 
     create(): void {
         console.log(`create`);
 
-        if (this.isGame1) {
-            // this.showSource1();
-            this.create_Game1();
-        } else {
-            // this.showSource2();
-            this.create_Game2();
+        const btn0 = this.add.image(100, 100, this.btnImageKey);
+        btn0.setInteractive();
+        btn0.on('pointerdown', this.onClickBtn0);
+
+        const btn1 = this.add.image(200, 100, this.btnImageKey);
+        btn1.setInteractive();
+        btn1.on('pointerdown', this.onClickBtn1);
+        const btn2 = this.add.image(200, 100, this.btnImageKey);
+        btn2.setInteractive();
+        btn2.on('pointerdown', this.onClickBtn2);
+
+        let gameId = window.localStorage.getItem(LSKey_GameId);
+        switch (gameId) {
+            case '1':
+                // this.showSource1();
+                this.create_Game1();
+                break;
+            case '2':
+                this.create_Game2();
+                break;
+            default:
+                console.error(`undefined, gameId=${gameId}`);
+                break;
         }
+    }
+    private onClickBtn0(): void {
+        console.log(`onClickBtn0`);
+    }
+    private onClickBtn1(): void {
+        console.log(`onClickBtn1`);
+    }
+    private onClickBtn2(): void {
+        console.log(`onClickBtn2`);
     }
 
     preload_Game1(): void {
