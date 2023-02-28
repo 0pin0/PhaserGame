@@ -1,12 +1,12 @@
 import "phaser";
 import myGlobalVariable from "../dist/global.js"
 
-const VersionText = '2023/2/28 21:47';
+const VersionText = '2023/2/28 22:47';
 
-interface MyGlobalVariable {
-    key1: string;
-    key2: string;
-}
+// interface MyGlobalVariable {
+//     key1: string;
+//     key2: string;
+// }
 
 export default class Demo extends Phaser.Scene {
     private isGame1: boolean;
@@ -14,10 +14,15 @@ export default class Demo extends Phaser.Scene {
     constructor() {
         super("demo");
 
-        const gloVar = myGlobalVariable as MyGlobalVariable;
+        // const gloVar = myGlobalVariable as MyGlobalVariable;
 
-        console.log(`gloVar.key1=${gloVar.key1}`);
-
+        if (this.data.values.gold == null) {
+            this.data.values.gold = 1;
+        }
+        else {
+            this.data.values.gold++;
+        }
+        console.log(`this.data.values.gold=${this.data.values.gold}`);
 
         this.isGame1 = Math.random() > 0.5;
         console.log(`this.isGame1 =${this.isGame1}`);
