@@ -11,6 +11,7 @@ export default class Demo extends Phaser.Scene {
   }
 
   preload(): void {
+    console.log(`preload`);
     if (this.isGame1) {
       this.preload_Game1();
     } else {
@@ -19,6 +20,7 @@ export default class Demo extends Phaser.Scene {
   }
 
   create(): void {
+    console.log(`create`);
     if (this.isGame1) {
       this.create_Game1();
     } else {
