@@ -1,6 +1,8 @@
 import "phaser";
 import myGlobalVariable from "../dist/global.js"
 
+const VersionText = '2023/2/28 21:47';
+
 interface MyGlobalVariable {
     key1: string;
     key2: string;
@@ -52,7 +54,7 @@ export default class Demo extends Phaser.Scene {
     create_Game1(): void {
         console.log("Game1");
         // source code
-        this.add.text(0, 0, 'ver 2023/2/28 21:47\n' + 'source code: Game1，phaser3 - logo.png, plasma - bundle.glsl.js, shader(RGB Shift Field, tweens.add');
+        this.add.text(0, 0, `ver ${VersionText}\n` + 'source code: Game1，phaser3 - logo.png, plasma - bundle.glsl.js, shader(RGB Shift Field, tweens.add');
 
         this.add.shader("RGB Shift Field", 0, 0, 800, 600).setOrigin(0);
 
