@@ -1,10 +1,21 @@
 import "phaser";
+import myGlobalVariable from "../dist/global.js"
+
+interface MyGlobalVariable {
+    key1: string;
+    key2: string;
+}
 
 export default class Demo extends Phaser.Scene {
     private isGame1: boolean;
 
     constructor() {
         super("demo");
+
+        const gloVar = myGlobalVariable as MyGlobalVariable;
+
+        console.log(`gloVar.key1=${gloVar.key1}`);
+
 
         this.isGame1 = Math.random() > 0.5;
         console.log(`this.isGame1 =${this.isGame1}`);
@@ -21,6 +32,7 @@ export default class Demo extends Phaser.Scene {
 
     create(): void {
         console.log(`create`);
+
         if (this.isGame1) {
             // this.showSource1();
             this.create_Game1();

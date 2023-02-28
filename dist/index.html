@@ -6,7 +6,10 @@
 </head>
 
 <body>
-  <div id="Frame2" width="100%" height="50%">
+  <button type="button" onclick="onClickBtn1">btn1</button>
+  <button type="button" onclick="onClickBtn2">btn2</button>
+
+  <div id=" Frame2" width="100%" height="50%">
     <!-- <script src="../src/Game2.js"></script> -->
     <iframe width="100%" src="../src/SourceCodeFrame.html"></iframe>
   </div>
@@ -14,6 +17,17 @@
     <script src="game.js"></script>
   </div>
 </body>
+
+<script src="global.js">
+  import myGlobalVariable from './global.js';
+
+  function onClickBtn1() {
+    myGlobalVariable.key1 = '1';
+  }
+  function onClickBtn2() {
+    myGlobalVariable.key1 = '2';
+  }
+</script>
 
 </html>
 
