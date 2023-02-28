@@ -26,21 +26,19 @@ var Demo = /** @class */ (function (_super) {
     }
     Demo.prototype.preload = function () {
         console.log("preload");
-        if (this.isGame1) {
-            this.preload_Game1();
-        }
-        else {
-            this.preload_Game2();
-        }
+        // if (this.isGame1) {
+        //   this.preload_Game1();
+        // } else {
+        this.preload_Game2();
+        // }
     };
     Demo.prototype.create = function () {
         console.log("create");
-        if (this.isGame1) {
-            this.create_Game1();
-        }
-        else {
-            this.create_Game2();
-        }
+        // if (this.isGame1) {
+        //   this.create_Game1();
+        // } else {
+        this.create_Game2();
+        // }
     };
     Demo.prototype.preload_Game1 = function () {
         this.load.image("logo", "assets/phaser3-logo.png");

@@ -12,20 +12,20 @@ export default class Demo extends Phaser.Scene {
 
   preload(): void {
     console.log(`preload`);
-    if (this.isGame1) {
-      this.preload_Game1();
-    } else {
-      this.preload_Game2();
-    }
+    // if (this.isGame1) {
+    //   this.preload_Game1();
+    // } else {
+    this.preload_Game2();
+    // }
   }
 
   create(): void {
     console.log(`create`);
-    if (this.isGame1) {
-      this.create_Game1();
-    } else {
-      this.create_Game2();
-    }
+    // if (this.isGame1) {
+    //   this.create_Game1();
+    // } else {
+    this.create_Game2();
+    // }
   }
 
   preload_Game1(): void {
