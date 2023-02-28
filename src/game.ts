@@ -1,7 +1,7 @@
 import "phaser";
 import myGlobalVariable from "../dist/global.js"
 
-const VersionText = '2023/2/28 23:50';
+const VersionText = '2023/3/1 00:09';
 
 // interface MyGlobalVariable {
 //     key1: string;
@@ -16,14 +16,23 @@ export default class Demo extends Phaser.Scene {
 
         // const gloVar = myGlobalVariable as MyGlobalVariable;
 
-        if (this.data.has('gold')) {
-            this.data.set('gold', 1);
+        // if (this.data.has('gold')) {
+        //     this.data.set('gold', 1);
+        // }
+        // else {
+        //     const g = +this.data.get('gold');
+        //     this.data.set('gold', `${g + 1}`);
+        // }
+        // const lastG = +this.data.get('gold');
+
+        let lastG = window.localStorage.getItem('gold');
+        if (lastG) {
+            lastG = `${+ lastG + 1}`;
         }
         else {
-            const g = +this.data.get('gold');
-            this.data.set('gold', `${g + 1}`);
+            lastG = `1`;
         }
-        const lastG = +this.data.get('gold');
+        window.localStorage.setItem('gold', lastG);
         console.log(`lastG=${lastG}`);
 
         this.isGame1 = Math.random() > 0.5;
