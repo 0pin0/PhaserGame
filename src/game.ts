@@ -58,7 +58,7 @@ export default class Demo extends Phaser.Scene {
     });
   }
   private showSource1(): void {
-    const el = document.getElementById("SourceCodeFrame");
+    const el = document.querySelector(".SourceCodeFrame");
     el.innerHTML =
       "<pre>" +
       "phaser3-logo.png" +
@@ -89,7 +89,7 @@ export default class Demo extends Phaser.Scene {
     });
   }
   private showSource2(): void {
-    const el = document.getElementById("SourceCodeFrame");
+    const el = document.querySelector(".SourceCodeFrame");
     el.innerHTML =
       "<pre>" + +"phaser3-logo.png" + "<br>" + "tweens.add" + "<br>" + "</pre>";
   }
