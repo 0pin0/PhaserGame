@@ -22,10 +22,10 @@ export default class Demo extends Phaser.Scene {
     create(): void {
         console.log(`create`);
         if (this.isGame1) {
-            this.showSource1();
+            // this.showSource1();
             this.create_Game1();
         } else {
-            this.showSource2();
+            // this.showSource2();
             this.create_Game2();
         }
     }
@@ -39,6 +39,8 @@ export default class Demo extends Phaser.Scene {
 
     create_Game1(): void {
         console.log("Game1");
+        // source code
+        this.add.text(0, 0, 'source code: Game1，phaser3-logo.png, plasma-bundle.glsl.js, shader(RGB Shift Field, tweens.add');
 
         this.add.shader("RGB Shift Field", 0, 0, 800, 600).setOrigin(0);
 
@@ -58,18 +60,18 @@ export default class Demo extends Phaser.Scene {
         });
     }
     private showSource1(): void {
-        console.log("querySelector(.SourceCodeFrame");
-        const el = document.querySelector(".SourceCodeFrame");
-        el.innerHTML =
-            "<pre>" +
-            "phaser3-logo.png" +
-            "<br>" +
-            "plasma-bundle.glsl.js" +
-            "<br>" +
-            "shader(RGB Shift Field" +
-            "<br>" +
-            "tweens.add" +
-            "</pre>";
+        // console.log("querySelector(.SourceCodeFrame");
+        // const el = document.querySelector(".SourceCodeFrame");
+        // el.innerHTML =
+        //     "<pre>" +
+        //     "phaser3-logo.png" +
+        //     "<br>" +
+        //     "plasma-bundle.glsl.js" +
+        //     "<br>" +
+        //     "shader(RGB Shift Field" +
+        //     "<br>" +
+        //     "tweens.add" +
+        //     "</pre>";
     }
 
     preload_Game2(): void {
@@ -77,6 +79,8 @@ export default class Demo extends Phaser.Scene {
     }
     create_Game2(): void {
         console.log("Game2");
+        // source code
+        this.add.text(0, 0, 'source code: Game2, phaser3-logo.png, tweens.add');
 
         const logo = this.add.image(400, 70, "logo");
 
@@ -90,11 +94,11 @@ export default class Demo extends Phaser.Scene {
         });
     }
     private showSource2(): void {
-        console.log("querySelector(.SourceCodeFrame");
+        // console.log("querySelector(.SourceCodeFrame");
 
-        const el = document.querySelector(".SourceCodeFrame");
-        el.innerHTML =
-            "<pre>" + +"phaser3-logo.png" + "<br>" + "tweens.add" + "<br>" + "</pre>";
+        // const el = document.querySelector(".SourceCodeFrame");
+        // el.innerHTML =
+        //     "<pre>" + +"phaser3-logo.png" + "<br>" + "tweens.add" + "<br>" + "</pre>";
     }
 }
 
