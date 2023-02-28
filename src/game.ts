@@ -7,6 +7,7 @@ export default class Demo extends Phaser.Scene {
     super("demo");
 
     this.isGame1 = Math.random() > 0.5;
+    console.log(`this.isGame1 =${this.isGame1}`);
   }
 
   preload(): void {
