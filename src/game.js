@@ -21,9 +21,11 @@ var Demo = /** @class */ (function (_super) {
     function Demo() {
         var _this = _super.call(this, "demo") || this;
         _this.isGame1 = Math.random() > 0.5;
+        console.log("this.isGame1 =".concat(_this.isGame1));
         return _this;
     }
     Demo.prototype.preload = function () {
+        console.log("preload");
         if (this.isGame1) {
             this.preload_Game1();
         }
@@ -32,6 +34,7 @@ var Demo = /** @class */ (function (_super) {
         }
     };
     Demo.prototype.create = function () {
+        console.log("create");
         if (this.isGame1) {
             this.create_Game1();
         }
