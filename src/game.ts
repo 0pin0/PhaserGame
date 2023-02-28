@@ -22,8 +22,10 @@ export default class Demo extends Phaser.Scene {
     create(): void {
         console.log(`create`);
         if (this.isGame1) {
+            this.showSource1();
             this.create_Game1();
         } else {
+            this.showSource2();
             this.create_Game2();
         }
     }
@@ -55,6 +57,14 @@ export default class Demo extends Phaser.Scene {
             repeat: -1,
         });
     }
+    private showSource1(): void {
+        const el = document.getElementById("SourceCodeFrame");
+        el.innerHTML = "phaser3-logo.png" +
+            "plasma-bundle.glsl.js" +
+            "shader(RGB Shift Field" +
+            "tweens.add";
+
+    }
 
     preload_Game2(): void {
         this.load.image("logo", "assets/phaser3-logo.png");
@@ -72,6 +82,12 @@ export default class Demo extends Phaser.Scene {
             yoyo: true,
             repeat: -1,
         });
+    }
+    private showSource2(): void {
+        const el = document.getElementById("SourceCodeFrame");
+        el.innerHTML = "phaser3-logo.png" +
+            "tweens.add";
+
     }
 }
 
