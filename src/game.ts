@@ -75,12 +75,15 @@ export default class Demo extends Phaser.Scene {
     }
     private onClickBtn0(): void {
         console.log(`onClickBtn0`);
+        window.localStorage.setItem(LSKey_GameId, `0`);
     }
     private onClickBtn1(): void {
         console.log(`onClickBtn1`);
+        window.localStorage.setItem(LSKey_GameId, `1`);
     }
     private onClickBtn2(): void {
         console.log(`onClickBtn2`);
+        window.localStorage.setItem(LSKey_GameId, `2`);
     }
 
     preload_Game1(): void {
