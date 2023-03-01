@@ -14,18 +14,7 @@ export default class Demo extends Phaser.Scene {
     private isGame1: boolean;
 
     constructor() {
-        super("demo");
-
-        // const gloVar = myGlobalVariable as MyGlobalVariable;
-
-        // if (this.data.has('gold')) {
-        //     this.data.set('gold', 1);
-        // }
-        // else {
-        //     const g = +this.data.get('gold');
-        //     this.data.set('gold', `${g + 1}`);
-        // }
-        // const lastG = +this.data.get('gold');
+        super("Demo");
 
         let gameIdText = window.localStorage.getItem(LSKey_GameId);
         let gameId = 1;
@@ -37,26 +26,23 @@ export default class Demo extends Phaser.Scene {
         }
         window.localStorage.setItem(LSKey_GameId, `${gameId}`);
         console.log(`gameId=${gameId}`);
-
-        // this.isGame1 = Math.random() > 0.5;
-        // console.log(`this.isGame1 =${this.isGame1}`);
     }
 
     private readonly btnImageKey = 'btn';
+    private gameId: number = 0;
     preload(): void {
         console.log(`preload`);
         const btn = this.load.image(this.btnImageKey, "assets/button.png");
 
-        let gameId = window.localStorage.getItem(LSKey_GameId);
-        switch (gameId) {
-            case '1':
+        switch (this.gameId) {
+            case 1:
                 this.preload_Game1();
                 break;
-            case '2':
+            case 2:
                 this.preload_Game2();
                 break;
             default:
-                console.error(`undefined, gameId=${gameId}`);
+                console.error(`undefined, gameId=${this.gameId}`);
                 break;
         }
     }
@@ -71,21 +57,19 @@ export default class Demo extends Phaser.Scene {
         const btn1 = this.add.image(200, 100, this.btnImageKey);
         btn1.setInteractive();
         btn1.on('pointerdown', this.onClickBtn1);
-        const btn2 = this.add.image(200, 100, this.btnImageKey);
+        const btn2 = this.add.image(300, 100, this.btnImageKey);
         btn2.setInteractive();
         btn2.on('pointerdown', this.onClickBtn2);
 
-        let gameId = window.localStorage.getItem(LSKey_GameId);
-        switch (gameId) {
-            case '1':
-                // this.showSource1();
+        switch (this.gameId) {
+            case 1:
                 this.create_Game1();
                 break;
-            case '2':
+            case 2:
                 this.create_Game2();
                 break;
             default:
-                console.error(`undefined, gameId=${gameId}`);
+                console.error(`undefined, gameId=${this.gameId}`);
                 break;
         }
     }
