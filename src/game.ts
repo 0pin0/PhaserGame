@@ -31,13 +31,12 @@ export default class Demo extends Phaser.Scene {
         let gameId = 1;
         if (gameIdText) {
             gameId = +gameIdText;
-
         }
         if (gameId > 2) {
             gameId = 1;
         }
-        window.localStorage.setItem('gold', `${gameId}`);
-        console.log(`lastG=${gameId}`);
+        window.localStorage.setItem(LSKey_GameId, `${gameId}`);
+        console.log(`gameId=${gameId}`);
 
         // this.isGame1 = Math.random() > 0.5;
         // console.log(`this.isGame1 =${this.isGame1}`);
