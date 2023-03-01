@@ -27,15 +27,16 @@ export default class Demo extends Phaser.Scene {
         // }
         // const lastG = +this.data.get('gold');
 
-        let gameId = window.localStorage.getItem(LSKey_GameId);
-        if (gameId) {
-            gameId = `${+ gameId + 1}`;
+        let gameIdText = window.localStorage.getItem(LSKey_GameId);
+        let gameId = 1;
+        if (gameIdText) {
+            gameId = +gameIdText;
 
         }
-        else {
-            gameId = `1`;
+        if (gameId > 2) {
+            gameId = 1;
         }
-        window.localStorage.setItem('gold', gameId);
+        window.localStorage.setItem('gold', `${gameId}`);
         console.log(`lastG=${gameId}`);
 
         // this.isGame1 = Math.random() > 0.5;
