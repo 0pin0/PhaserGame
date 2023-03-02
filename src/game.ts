@@ -1,7 +1,7 @@
 import "phaser";
 import myGlobalVariable from "../dist/global.js"
 
-const VersionText = '2023/3/1 00:57';
+const VersionText = '2023/3/3 07:05';
 
 const LSKey_GameId = 'LSKey_GameID';
 
@@ -17,15 +17,15 @@ export default class Demo extends Phaser.Scene {
         super("Demo");
 
         let gameIdText = window.localStorage.getItem(LSKey_GameId);
-        let gameId = 1;
+        this.gameId = 1;
         if (gameIdText) {
-            gameId = +gameIdText;
+            this.gameId = +gameIdText;
         }
-        if (gameId > 2) {
-            gameId = 1;
+        if (this.gameId > 2) {
+            this.gameId = 1;
         }
-        window.localStorage.setItem(LSKey_GameId, `${gameId}`);
-        console.log(`gameId=${gameId}`);
+        window.localStorage.setItem(LSKey_GameId, `${this.gameId}`);
+        console.log(`gameId=${this.gameId}`);
     }
 
     private readonly btnImageKey = 'btn';
