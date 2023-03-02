@@ -1,7 +1,7 @@
 import "phaser";
 import myGlobalVariable from "../dist/global.js"
 
-const VersionText = '2023/3/3 07:24';
+const VersionText = '2023/3/3 07:29';
 
 const LSKey_GameId = 'LSKey_GameID';
 
@@ -66,6 +66,8 @@ export default class Demo extends Phaser.Scene {
         btn2.on('pointerdown', this.onClickBtn2);
         this.add.text(btn0.x, btn0.y, `遊戲2`);
 
+        this.add.text(0, 0, `ver ${VersionText}\n`);
+
         switch (this.gameId) {
             case 1:
                 this.create_Game1();
@@ -101,7 +103,7 @@ export default class Demo extends Phaser.Scene {
     create_Game1(): void {
         console.log("Game1");
         // source code
-        this.add.text(0, 0, `ver ${VersionText}\n` + 'source code: Game1，phaser3 - logo.png, plasma - bundle.glsl.js, shader(RGB Shift Field, tweens.add');
+        this.add.text(0, 50, 'source code: Game1，phaser3 - logo.png, plasma - bundle.glsl.js, shader(RGB Shift Field, tweens.add');
 
         this.add.shader("RGB Shift Field", 0, 0, 800, 600).setOrigin(0);
 
@@ -141,7 +143,7 @@ export default class Demo extends Phaser.Scene {
     create_Game2(): void {
         console.log("Game2");
         // source code
-        this.add.text(0, 0, 'source code: Game2, phaser3-logo.png, tweens.add');
+        this.add.text(0, 50, 'source code: Game2, phaser3-logo.png, tweens.add');
 
         const logo = this.add.image(400, 70, "logo");
 
