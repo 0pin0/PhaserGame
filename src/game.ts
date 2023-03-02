@@ -1,7 +1,7 @@
 import "phaser";
 import myGlobalVariable from "../dist/global.js"
 
-const VersionText = '2023/3/3 07:05';
+const VersionText = '2023/3/3 07:24';
 
 const LSKey_GameId = 'LSKey_GameID';
 
@@ -32,7 +32,7 @@ export default class Demo extends Phaser.Scene {
     private gameId: number = 0;
     preload(): void {
         console.log(`preload`);
-        const btn = this.load.image(this.btnImageKey, "assets/button.png");
+        this.load.image(this.btnImageKey, "assets/button1_s.png");
 
         switch (this.gameId) {
             case 1:
@@ -51,18 +51,20 @@ export default class Demo extends Phaser.Scene {
         console.log(`create`);
 
         const btn0 = this.add.image(100, 100, this.btnImageKey);
-        this.add.text(200, 150, `選單`);
+        btn0.setScale(0.5);
         btn0.setInteractive();
         btn0.on('pointerdown', this.onClickBtn0);
+        this.add.text(btn0.x, btn0.y, `選單`);
 
         const btn1 = this.add.image(200, 100, this.btnImageKey);
-        this.add.text(200, 150, `遊戲1`);
         btn1.setInteractive();
         btn1.on('pointerdown', this.onClickBtn1);
+        this.add.text(btn0.x, btn0.y, `遊戲1`);
+
         const btn2 = this.add.image(300, 100, this.btnImageKey);
-        this.add.text(200, 150, `遊戲2`);
         btn2.setInteractive();
         btn2.on('pointerdown', this.onClickBtn2);
+        this.add.text(btn0.x, btn0.y, `遊戲2`);
 
         switch (this.gameId) {
             case 1:
