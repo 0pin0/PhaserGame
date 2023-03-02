@@ -51,13 +51,16 @@ export default class Demo extends Phaser.Scene {
         console.log(`create`);
 
         const btn0 = this.add.image(100, 100, this.btnImageKey);
+        this.add.text(200, 150, `選單`);
         btn0.setInteractive();
         btn0.on('pointerdown', this.onClickBtn0);
 
         const btn1 = this.add.image(200, 100, this.btnImageKey);
+        this.add.text(200, 150, `遊戲1`);
         btn1.setInteractive();
         btn1.on('pointerdown', this.onClickBtn1);
         const btn2 = this.add.image(300, 100, this.btnImageKey);
+        this.add.text(200, 150, `遊戲2`);
         btn2.setInteractive();
         btn2.on('pointerdown', this.onClickBtn2);
 
