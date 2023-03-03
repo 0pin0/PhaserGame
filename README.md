@@ -11,3 +11,6 @@
 [PNG下載](https://pngtree.com/free-png-vectors/button)
 
 PS: According to the documentation, github pages have a limit of 10 builds per hour
+
+[參考phaser範例](https://phaser.io/examples)
+[參考phaserTypescript範例](https://github.com/photonstorm/phaser3-typescript-project-template)

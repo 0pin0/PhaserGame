@@ -7,9 +7,17 @@ const LSKey_GameId = 'LSKey_GameID';
 
 export default class Demo extends Phaser.Scene {
     private readonly btnImageKey = 'btn';
-    private readonly gameTitlePosY = 30;
+    private readonly menuBtnPosY = 60;
+    private readonly gameTitlePosY = 120;
+    private readonly maxGameId = 2;
 
     private gameId: number = 0;
+    private readonly gameName2 = '建立動畫事件';
+    private gameNameList: string[] = [
+        '目錄',
+        'PhaserTS',
+        `${this.gameName2}`
+    ];
 
     //#region base
     constructor() {
@@ -71,48 +79,32 @@ export default class Demo extends Phaser.Scene {
             console.error(`msg=${e}`);
         }
     }
-    create_Game0(): void {       // 目錄
-        this.add.text(100, 50, `點擊切換`);
-
-        const btn0 = this.add.image(100, 100, this.btnImageKey);
-        btn0.setScale(0.5);
-        btn0.setInteractive();
-        btn0.on('pointerdown', this.onClickBtn0);
-        let btnText = this.add.text(btn0.x, btn0.y, `選單`);
-        btnText.setOrigin(0.5, 0.5);
-
-        let btn = this.add.image(200, 100, this.btnImageKey);
-        btn.setScale(0.5);
-        btn.setInteractive();
-        btn.on('pointerdown', this.onClickBtn1);
-        btnText = this.add.text(btn.x, btn.y, `遊戲1`,);
-        btnText.setOrigin(0.5, 0.5);
-
-        btn = this.add.image(300, 100, this.btnImageKey);
-        btn.setScale(0.5);
-        btn.setInteractive();
-        btn.on('pointerdown', this.onClickBtn2);
-        btnText = this.add.text(btn.x, btn.y, `遊戲2`);
-        btnText.setOrigin(0.5, 0.5);
-
+    create_Game0(): void {
         this.add.text(0, 0, `ver ${VersionText}\n`);
+
+        // 目錄
+        this.add.text(10, 30, `點擊切換`);
+
+        // 目錄會顯示全部game，非目錄的只show目綠鈕
+        const maxId = this.gameId > 0 ? 0 : this.maxGameId;
+
+        for (let i = 0; i <= maxId; i++) {
+            const btn = this.add.image(120 + 80 * i, this.menuBtnPosY, this.btnImageKey);
+            btn.setScale(0.5);
+            btn.setInteractive();
+            btn.on('pointerdown', () => { this.onClickBtn(i) });
+
+            const text = this.gameNameList[i];
+            const btnText = this.add.text(btn.x, btn.y, text);
+            btnText.setOrigin(0.5, 0.5);
+        }
     }
     //#endregion base
 
     //#region btn
-    private onClickBtn0(): void {
-        console.log(`onClickBtn0`);
-        window.localStorage.setItem(LSKey_GameId, `0`);
-        location.reload();
-    }
-    private onClickBtn1(): void {
-        console.log(`onClickBtn1`);
-        window.localStorage.setItem(LSKey_GameId, `1`);
-        location.reload();
-    }
-    private onClickBtn2(): void {
-        console.log(`onClickBtn2`);
-        window.localStorage.setItem(LSKey_GameId, `2`);
+    private onClickBtn(index: number): void {
+        console.log(`onClickBtn${index}`);
+        window.localStorage.setItem(LSKey_GameId, `${index}`);
         location.reload();
     }
     //#endregion btn
@@ -127,8 +119,6 @@ export default class Demo extends Phaser.Scene {
 
     create_Game1(): void {
         console.log("Game1");
-        // source code
-        this.add.text(0, this.gameTitlePosY, 'source code: Game1，phaser3 - logo.png, plasma - bundle.glsl.js, shader(RGB Shift Field, tweens.add');
 
         this.add.shader("RGB Shift Field", 0, 0, 800, 600).setOrigin(0);
 
@@ -146,49 +136,61 @@ export default class Demo extends Phaser.Scene {
             yoyo: true,
             repeat: -1,
         });
+
+        // version
+        this.add.text(0, this.gameTitlePosY, 'source code: Game1，phaser3 - logo.png, plasma - bundle.glsl.js, shader(RGB Shift Field, tweens.add');
     }
-    private showSource1(): void {
-        // console.log("querySelector(.SourceCodeFrame");
-        // const el = document.querySelector(".SourceCodeFrame");
-        // el.innerHTML =
-        //     "<pre>" +
-        //     "phaser3-logo.png" +
-        //     "<br>" +
-        //     "plasma-bundle.glsl.js" +
-        //     "<br>" +
-        //     "shader(RGB Shift Field" +
-        //     "<br>" +
-        //     "tweens.add" +
-        //     "</pre>";
-    }
+
     //#endregion game1
 
     //#region game2
+    private gemPosY: number;
+    private gemIdx: number;
     preload_Game2(): void {
-        this.load.image("logo", "assets/phaser3-logo.png");
+        // 載入atlas(png/json)
+        this.load.atlas('gems', 'assets/columns/gems.png', 'assets/columns/gems.json');
+        // Local variable
+        this.gemPosY = 160;
     }
     create_Game2(): void {
-        console.log("Game2");
-        // source code
-        this.add.text(0, this.gameTitlePosY, 'source code: Game2, phaser3-logo.png, tweens.add');
+        // 提示字
+        this.add.text(400, 32, 'Click to create animations', { color: '#00ff00' })
+            .setOrigin(0.5, 0);
 
-        const logo = this.add.image(400, 70, "logo");
+        // 綁動畫建立event，建立時通知刷新
+        //  Each time a new animation is added to the Animation Manager we'll call this function
+        this.anims.on(Phaser.Animations.Events.ADD_ANIMATION, this.addAnimation, this);
 
-        this.tweens.add({
-            targets: logo,
-            y: 350,
-            duration: 1500,
-            ease: "Sine.inOut",
-            yoyo: true,
-            repeat: -1,
-        });
+        this.gemIdx = 0;
+
+        // 點擊畫面，建立動畫
+        //  Click to add an animation
+        this.input.on('pointerup', function () {
+            switch (this.i) {
+                case 0:
+                    this.anims.create({ key: 'diamond', frames: this.anims.generateFrameNames('gems', { prefix: 'diamond_', end: 15, zeroPad: 4 }), repeat: -1 });
+                    break;
+                case 1:
+                    this.anims.create({ key: 'prism', frames: this.anims.generateFrameNames('gems', { prefix: 'prism_', end: 6, zeroPad: 4 }), repeat: -1 });
+                    break;
+                case 2:
+                    this.anims.create({ key: 'ruby', frames: this.anims.generateFrameNames('gems', { prefix: 'ruby_', end: 6, zeroPad: 4 }), repeat: -1 });
+                    break;
+                case 3:
+                    this.anims.create({ key: 'square', frames: this.anims.generateFrameNames('gems', { prefix: 'square_', end: 14, zeroPad: 4 }), repeat: -1 });
+                    break;
+            }
+            this.i++;
+        }, this);
+
+        // version
+        this.add.text(0, this.gameTitlePosY, `${this.gameName2}, gems.png, gems.json, anims.create, generateFrameNames`);
     }
-    private showSource2(): void {
-        // console.log("querySelector(.SourceCodeFrame");
-
-        // const el = document.querySelector(".SourceCodeFrame");
-        // el.innerHTML =
-        //     "<pre>" + +"phaser3-logo.png" + "<br>" + "tweens.add" + "<br>" + "</pre>";
+    /** 建立動畫子元件 */
+    addAnimation(key: string) {
+        this.add.sprite(400, this.gemPosY, 'gems')
+            .play(key);
+        this.gemPosY += 100;
     }
     //#endregion game2
 }
