@@ -11,8 +11,6 @@ const LSKey_GameId = 'LSKey_GameID';
 // }
 
 export default class Demo extends Phaser.Scene {
-    private isGame1: boolean;
-
     constructor() {
         super("Demo");
 
