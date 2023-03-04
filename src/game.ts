@@ -1,119 +1,254 @@
 import "phaser";
 import myGlobalVariable from "../dist/global.js"
 
-const VersionText = '2023/3/3 07:29';
+const VersionText = '2023/3/4 12:31';
 
-const LSKey_GameId = 'LSKey_GameID';
+const LSKey_TypeId = 'LSKey_TypeId';
+const LSKey_GameId = 'LSKey_GameId';
 
 export default class Demo extends Phaser.Scene {
     private readonly btnImageKey = 'btn';
     private readonly menuBtnPosY = 60;
     private readonly gameTitlePosY = 120;
-    private readonly maxGameId = 3;
-
-    private gameId: number = 0;
     private readonly gameName2 = '建立動畫事件';
     private readonly gameName3 = '縮放鏡頭';
+    private readonly gameName4 = '數學曲線';
+
+    private typeId: number = 0;
+    private gameId: number = 0;
+    private gameIdTable: number[][] = [
+        [],
+        [1],
+        [2],
+        [3],
+        [4],
+    ];
+    private typeNameList: string[] = [
+        'None',
+        'PhaserTS',
+        `動畫`,
+        `鏡頭`,
+        `數學`
+    ];
     private gameNameList: string[] = [
-        '目錄',
+        '上一層',
         'PhaserTS',
         `${this.gameName2}`,
-        `${this.gameName3}`
+        `${this.gameName3}`,
+        `${this.gameName4}`
     ];
+    private btnList: Phaser.GameObjects.Image[] = [];
 
     //#region base
     constructor() {
         super("Demo");
 
-        // 轉換gameId
+        // 轉換GameId
+        let typeIdText = window.localStorage.getItem(LSKey_TypeId);
         let gameIdText = window.localStorage.getItem(LSKey_GameId);
-        this.gameId = 1;
+        console.log(`typeIdText=${typeIdText} GameIdText=${gameIdText}`);
+
+        this.typeId = 0;
+        if (typeIdText) {
+            this.typeId = +typeIdText;
+        }
+        else {
+            window.localStorage.setItem(LSKey_TypeId, `0`);
+        }
+
+        this.gameId = 0;
         if (gameIdText) {
             this.gameId = +gameIdText;
         }
-        console.log(`gameId=${this.gameId}`);
+        else {
+            window.localStorage.setItem(LSKey_GameId, `0`);
+        }
+
+        console.log(`typeId=${this.typeId} GameId=${this.gameId}`);
     }
 
     preload(): void {
         console.log(`preload`);
 
-        // 切換game
-        switch (this.gameId) {
-            case 1:
-                this.preload_Game1();
-                break;
-            case 2:
-                this.preload_Game2();
-                break;
-            case 3:
-                this.preload_Game3();
-                break;
-            default:
-                console.error(`undefined, gameId=${this.gameId}`);
-                break;
+        // 已選GAME時，切換game
+        if (this.typeId > 0) {
+            switch (this.gameId) {
+                case 0:
+                    break;
+                case 1:
+                    this.preload_Game1();
+                    break;
+                case 2:
+                    this.preload_Game2();
+                    break;
+                case 3:
+                    this.preload_Game3();
+                    break;
+                case 4:
+                    break;
+                default:
+                    console.error(`undefined, GameId=${this.gameId}`);
+                    break;
+            }
         }
 
-        this.preload_Game0();
+        this.preload_Menu();
     }
 
     create(): void {
         console.log(`create`);
 
-        // 切換game
-        console.log(`gameId=${this.gameId}`);
-        switch (this.gameId) {
-            case 1:
-                this.create_Game1();
-                break;
-            case 2:
-                this.create_Game2();
-                break;
-            case 3:
-                this.create_Game3();
-                break;
-            default:
-                console.error(`undefined, gameId=${this.gameId}`);
-                break;
+        // 已選GAME時，切換game
+        if (this.typeId > 0) {
+            console.log(`GameId=${this.gameId}`);
+            switch (this.gameId) {
+                case 0:
+                    break;
+                case 1:
+                    this.create_Game1();
+                    break;
+                case 2:
+                    this.create_Game2();
+                    break;
+                case 3:
+                    this.create_Game3();
+                    break;
+                case 4:
+                    break;
+                default:
+                    console.error(`undefined, GameId=${this.gameId}`);
+                    break;
+            }
         }
 
-        this.create_Game0();
+        this.create_Menu();
     }
 
-    preload_Game0(): void {
-        // 目錄
+    /** 目錄 */
+    preload_Menu(): void {
         try {
             this.load.image(this.btnImageKey, "assets/button1_s.png");
         } catch (e) {
             console.error(`msg=${e}`);
         }
     }
-    create_Game0(): void {
+    /** 目錄 */
+    create_Menu(): void {
+        // 刪除舊btn
+        this.btnList.forEach((btn) => {
+            btn.destroy();
+        });
+        this.btnList.length = 0;
+
         this.add.text(0, 0, `ver ${VersionText}\n`);
 
+        console.log(`typeId=${this.typeId} gameId=${this.gameId}`);
+
         // 目錄
-        this.add.text(10, 30, `點擊切換`);
+        this.add.text(10, 30, `點擊切換\n t=${this.typeId} \n g=${this.gameId}`);
 
-        // 目錄會顯示全部game，非目錄的只show目綠鈕
-        const maxId = this.gameId > 0 ? 0 : this.maxGameId;
-
-        for (let i = 0; i <= maxId; i++) {
-            const btn = this.add.image(120 + 80 * i, this.menuBtnPosY, this.btnImageKey);
-            btn.setScale(0.5);
-            btn.setInteractive();
-            btn.on('pointerdown', () => { this.onClickBtn(i) });
-
-            const text = this.gameNameList[i];
-            const btnText = this.add.text(btn.x, btn.y, text);
-            btnText.setOrigin(0.5, 0.5);
+        // 若是未選擇type/GAME，就是顯示類型頁
+        if (this.typeId === 0 && this.gameId === 0) {
+            console.log(`length=${this.gameIdTable.length}`);
+            for (let i = 1; i < this.gameIdTable.length; i++) {
+                const text = this.typeNameList[i];
+                this.addButton(i, text);
+            }
         }
+        // 若是有選擇type，沒選game，就是顯示上一頁/全部game
+        else if (this.typeId > 0 && this.gameId === 0) {
+            const gameIDList = this.gameIdTable[this.typeId];
+            const endIdx = gameIDList.length;
+            if (endIdx < 0) {
+                console.error(`endIdx=${endIdx}`);
+                return;
+            }
+
+            // 返回
+            this.addButton(0, this.gameNameList[0]);
+
+            // 分類的game按鈕
+            console.log(`endIdx=${endIdx}`);
+            gameIDList.forEach((gameId, index) => {
+                const text = this.gameNameList[gameId];
+                this.addButton(index + 1, text);
+            });
+            for (let i = 0; i <= endIdx; i++) {
+            }
+        }
+        // 若是有選擇game也有選擇type，就是上一頁
+        else if (this.typeId > 0 && this.gameId > 0) {
+            this.addButton(0, this.gameNameList[0]);
+        }
+        else {
+            console.error(`unknown, typeId=${this.typeId} gameId=${this.gameId}`);
+        }
+    }
+
+    /** 加入按鈕
+     * @param i 索引
+     * @param text 文字
+     */
+    private addButton(i: number, text: string): void {
+        const btn = this.add.image(120 + 80 * i, this.menuBtnPosY, this.btnImageKey);
+        btn.setScale(0.5);
+        btn.setInteractive();
+        btn.on('pointerup', () => { this.onClickBtn(i) });
+
+        this.btnList.push(btn);
+
+        const btnText = this.add.text(btn.x, btn.y, text);
+        btnText.setOrigin(0.5, 0.5);
     }
     //#endregion base
 
     //#region btn
     private onClickBtn(index: number): void {
-        console.log(`onClickBtn${index}`);
-        window.localStorage.setItem(LSKey_GameId, `${index}`);
-        location.reload();
+        console.log(`onClickBtn=${index} typeId=${this.typeId} gameId=${this.gameId}`);
+
+        // 若是未選擇type
+        if (this.typeId === 0) {
+            // 若是未選擇game，就設定type清除game，並顯示game目錄
+            if (this.typeId === 0 && this.gameId === 0) {
+                this.typeId = index;
+                window.localStorage.setItem(LSKey_TypeId, `${this.typeId}`);
+                this.gameId = 0;
+                window.localStorage.setItem(LSKey_GameId, `${this.gameId}`);
+                console.log(`onClickBtn=${index} typeId=${this.typeId} gameId=${this.gameId}`);
+                // 重新載入網頁
+                location.reload();
+            }
+            else {
+                console.error(`unknown, typeId=${this.typeId} gameId=${this.gameId}`);
+            }
+        }
+        // 若是有選擇type
+        else if (this.typeId > 0) {
+            // 若按返回鈕，就清除gameId
+            if (index === 0) {
+                this.typeId = 0;
+                window.localStorage.setItem(LSKey_TypeId, `${this.typeId}`);
+                this.gameId = 0;
+                window.localStorage.setItem(LSKey_GameId, `${this.gameId}`);
+                console.log(`onClickBtn=${index} typeId=${this.typeId} gameId=${this.gameId}`);
+                // 重新載入網頁
+                location.reload();
+            }
+            // 若沒選game, 且按game鈕，就設定game
+            else if (this.gameId === 0 && index > 0) {
+                this.gameId = this.gameIdTable[this.typeId][index - 1];
+                window.localStorage.setItem(LSKey_GameId, `${this.gameId}`);
+                console.log(`onClickBtn=${index} typeId=${this.typeId} gameId=${this.gameId}`);
+                // 重新載入網頁
+                location.reload();
+            }
+            else {
+                console.error(`unknown, typeId=${this.typeId} gameId=${this.gameId}`);
+            }
+        }
+        else {
+            console.error(`unknown, typeId=${this.typeId} gameId=${this.gameId}`);
+        }
     }
     //#endregion btn
 
@@ -331,24 +466,94 @@ class UIScene extends Phaser.Scene {
 }
 //#endregion game3
 
-let config = {
-    type: Phaser.AUTO,
-    backgroundColor: "#125555",
-    width: 800,
-    height: 600,
-    scene: [],
+//#region game4
+// dwitter globals
+
+var c;
+var x;
+var math_I;
+var q;
+
+let tin: number = 0;
+let frame: number = 0;
+
+var S = Math.sin;
+var C = Math.cos;
+var T = Math.tan;
+
+function R(r, g, b, a) {
+    a = a === undefined ? 1 : a;
+
+    return "rgba(" + (r | 0) + "," + (g | 0) + "," + (b | 0) + "," + a + ")";
 };
-const gameId = + window.localStorage.getItem(LSKey_GameId);
-switch (gameId) {
+
+// https://www.dwitter.net/d/5446
+function u(t) {
+    c.width |= math_I = 300
+    x.lineWidth = .1
+    while (--math_I) q = 19 + S(t / 6) / 28 * math_I, x.arc(S(q / 3) * math_I + q * 60, (C(q * S(t / 2)) + 4) * math_I / 2 + 200, (C(q) * 60 + 200) * S(math_I / 96), 0, 7)
+    x.stroke()
+}
+
+function create() {
+    var canvasTexture = this.textures.createCanvas('dwitter', 1920, 1080);
+
+    c = canvasTexture.getSourceImage();
+    x = c.getContext('2d');
+
+    this.add.image(0, 0, 'dwitter').setOrigin(0).setScale(0.5);
+}
+
+function update() {
+    tin = frame / 60;
+
+    if ((tin * 60 | 0) == frame - 1) {
+        tin += 0.000001;
+    }
+
+    frame++;
+
+    u(tin);
+}
+//#endregion game4
+
+let config;
+const checkGameId = + window.localStorage.getItem(LSKey_GameId);
+console.log(`checkGameId=${checkGameId}`);
+switch (checkGameId) {
     case 3:
-        config.scene = [Demo, UIScene]
+        config = {
+            type: Phaser.AUTO,
+            backgroundColor: "#125555",
+            width: 800,
+            height: 600,
+            scene: [Demo, UIScene]
+        };
+        break;
+    case 4:
+        config = {
+            type: Phaser.CANVAS,
+            backgroundColor: "#125555",
+            width: 800,
+            height: 600,
+            scene: {
+                create: create,
+                update: update
+            }
+        };
+        window.localStorage.setItem(LSKey_TypeId, '0');
+        window.localStorage.setItem(LSKey_GameId, '0');
         break;
 
     default:
-        config.scene = [Demo]
+        config = {
+            type: Phaser.AUTO,
+            backgroundColor: "#125555",
+            width: 800,
+            height: 600,
+            scene: [Demo],
+        };
         break;
 }
-
-
 
 const game = new Phaser.Game(config);
